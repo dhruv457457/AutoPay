@@ -1,0 +1,30 @@
+type Subscription @entity {
+  # The unique ID from the smart contract
+  id: ID!
+
+  # The address of the user's main wallet (EOA)
+  owner: String! @indexed
+
+  # The address of the person paying (their Smart Account)
+  subscriber: String! @indexed
+
+  # The address of the service getting paid
+  # 👇 --- THE CHANGE IS HERE: Removed @indexed ---
+  recipient: String!
+
+  # The ERC20 token being used for payment
+  token: String!
+
+  # How much is paid each time
+  amount: BigInt!
+
+  # How often the payment occurs (in seconds)
+  frequency: BigInt!
+
+  # The timestamp of the last successful payment
+  lastPaymentTimestamp: BigInt!
+
+  # Is the subscription active or cancelled?
+  isActive: Boolean!
+}
+

@@ -1,0 +1,23 @@
+{
+  "name": "autopay-agent",
+  "version": "1.0.0",
+  "description": "A standalone agent to execute recurring payments.",
+  "main": "agent.ts",
+  "type": "module",
+  "scripts": {
+    "start": "node --loader ts-node/esm agent.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@metamask/delegation-toolkit": "^0.13.0",
+    "@types/node": "^24.7.0",
+    "dotenv": "^17.2.3",
+    "permissionless": "^0.2.57",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "viem": "^2.38.0"
+  }
+}
+
