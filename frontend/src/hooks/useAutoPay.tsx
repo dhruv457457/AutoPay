@@ -6,7 +6,7 @@ import { createDelegation } from '@metamask/delegation-toolkit';
 import { subscriptionManagerAddress } from '../lib/contracts/contracts';
 
 // The URL for your backend API server
-const API_BASE_URL = 'http://localhost:3001'; 
+const API_BASE_URL =  import.meta.env.VITE_API_BASE_URL; 
 
 export interface Subscription {
   id: string;
