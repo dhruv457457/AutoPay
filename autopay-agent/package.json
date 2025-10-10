@@ -1,23 +1,36 @@
 {
-  "name": "autopay-agent",
+  "name": "autopay-agent-server",
   "version": "1.0.0",
-  "description": "A standalone agent to execute recurring payments.",
-  "main": "agent.ts",
+  "description": "Combined agent and server for autopay with MongoDB",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "node --loader ts-node/esm agent.ts"
+    "start": "node --loader ts-node/esm index.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm index.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "autopay",
+    "agent",
+    "blockchain",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@metamask/delegation-toolkit": "^0.13.0",
     "@types/node": "^24.7.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
     "permissionless": "^0.2.57",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "viem": "^2.38.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "nodemon": "^3.0.2"
   }
 }
-

@@ -13,8 +13,7 @@ import StatusDisplay from '../components/shared/StatusDisplay';
 import { subscriptionManagerAddress, subscriptionManagerAbi } from '../lib/contracts/contracts';
 import { erc20Abi } from '../lib/abis/erc20Abi';
 
-const INDEXER_URL = 'http://localhost:8080/v1/graphql';
-const HASURA_ADMIN_SECRET = 'testing';
+const INDEXER_URL = 'https://indexer.dev.hyperindex.xyz/223f75b/v1/graphql';
 
 // Helper function to fetch subscriptions for a user's smart account
 const fetchSubscriptionsForUser = async (address: string): Promise<Subscription[]> => {
@@ -39,7 +38,7 @@ const fetchSubscriptionsForUser = async (address: string): Promise<Subscription[
     try {
         const response = await fetch(INDEXER_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-hasura-admin-secret': HASURA_ADMIN_SECRET },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(query),
         });
         const result = await response.json();

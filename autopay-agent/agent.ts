@@ -20,7 +20,6 @@ const AGENT_PRIVATE_KEY = process.env.AGENT_PRIVATE_KEY as `0x${string}` | undef
 const BUNDLER_RPC_URL = process.env.BUNDLER_RPC_URL;
 const NODE_RPC_URL = process.env.NODE_RPC_URL;
 const INDEXER_URL = process.env.INDEXER_URL;
-const HASURA_ADMIN_SECRET = process.env.HASURA_ADMIN_SECRET;
 
 if (!AGENT_PRIVATE_KEY || !/^0x[a-fA-F0-9]{64}$/.test(AGENT_PRIVATE_KEY)) {
     throw new Error("Invalid or missing AGENT_PRIVATE_KEY in .env file.");
@@ -57,7 +56,6 @@ async function fetchDueSubscriptions(): Promise<Subscription[]> {
     const graphqlQuery = { query: `query GetActiveSubscriptions { Subscription(where: { isActive: { _eq: true } }) { id owner subscriber frequency lastPaymentTimestamp } }` };
     try {
         const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-        if (HASURA_ADMIN_SECRET) headers['x-hasura-admin-secret'] = HASURA_ADMIN_SECRET;
         const response = await fetch(INDEXER_URL!, { method: 'POST', headers, body: JSON.stringify(graphqlQuery) });
         const data: GqlResponse = await response.json();
         const allSubs = data?.data?.Subscription ?? [];
