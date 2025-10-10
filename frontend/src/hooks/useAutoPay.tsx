@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { useSmartAccount } from './useSmartAccount';
 import { type Address } from 'viem';
-import { createDelegation, type SignedDelegation as SignedDelegationType } from '@metamask/delegation-toolkit';
+import { createDelegation } from '@metamask/delegation-toolkit';
 import { subscriptionManagerAddress } from '../lib/contracts/contracts';
 
 // The URL for your backend API server
@@ -18,6 +18,16 @@ export interface Subscription {
   frequency: string;
   lastPaymentTimestamp: string;
   isActive: boolean;
+}
+
+// Define the SignedDelegation type locally since it's not exported
+interface SignedDelegation {
+    delegate: Address;
+    delegator: Address;
+    authority: Address;
+    caveats: any[];
+    salt: Address; // Hex string, not bigint
+    signature: any;
 }
 
 // A user-specific key to simply remember if they've authorized before for a better UI experience
@@ -88,20 +98,17 @@ export const useAutoPay = () => {
         }
         try {
             setStatus('Creating specific delegation for the agent...');
-            
-            const expiry = BigInt(Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30)); // 30-day expiry
 
             const delegation = createDelegation({
                 scope: { type: "functionCall", targets: [subscriptionManagerAddress], selectors: ["executePayment(uint256)"] },
                 from: smartAccount.address,
                 to: AGENT_SMART_ACCOUNT_ADDRESS as Address,
                 environment: smartAccount.environment,
-                expiry,
             });
 
             const signature = await smartAccount.signDelegation({ delegation });
             
-            const signedDelegation: SignedDelegationType = { ...delegation, signature };
+            const signedDelegation: SignedDelegation = { ...delegation, signature };
             
             setStatus('Sending delegation to secure server...');
             
@@ -112,7 +119,7 @@ export const useAutoPay = () => {
                 body: JSON.stringify({
                     userSmartAccountAddress: smartAccount.address,
                     // Convert BigInts to strings for JSON transport before sending
-                    signedDelegation: JSON.parse(JSON.stringify(signedDelegation, (k, v) => typeof v === 'bigint' ? v.toString() : v))
+                    signedDelegation: JSON.parse(JSON.stringify(signedDelegation, (_key, value) => typeof value === 'bigint' ? value.toString() : value))
                 })
             });
 

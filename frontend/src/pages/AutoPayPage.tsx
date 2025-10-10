@@ -219,7 +219,6 @@ const CreateSubscriptionPanel: React.FC = () => {
 };
 
 const SubscriptionsList: React.FC = () => {
-    const { address: eoaAddress } = useAccount();
     const { smartAccount, pimlicoClient, smartClient } = useSmartAccount();
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     const [isLoading, setIsLoading] = useState(true);
