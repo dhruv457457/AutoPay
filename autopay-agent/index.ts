@@ -8,6 +8,7 @@ import { createPimlicoClient } from 'permissionless/clients/pimlico';
 import { toMetaMaskSmartAccount, Implementation, createExecution, ExecutionMode, Delegation, getDeleGatorEnvironment } from '@metamask/delegation-toolkit';
 import { DelegationManager } from '@metamask/delegation-toolkit/contracts';
 import { subscriptionManagerAddress, subscriptionManagerAbi } from './contracts.js';
+import { Server } from 'http';
 
 // ============================================
 // CONFIGURATION
@@ -27,6 +28,7 @@ const NODE_RPC_URL = process.env.NODE_RPC_URL;
 const INDEXER_URL = process.env.INDEXER_URL;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/autopay-agent';
 const PORT = process.env.PORT || '3001';
+const HOST = process.env.HOST || '0.0.0.0'; // Listen on all network interfaces for deployment
 
 if (!AGENT_PRIVATE_KEY || !/^0x[a-fA-F0-9]{64}$/.test(AGENT_PRIVATE_KEY)) {
     throw new Error("Invalid or missing AGENT_PRIVATE_KEY in .env file.");
@@ -75,7 +77,7 @@ const signedDelegationSchema = new mongoose.Schema<SignedDelegationDoc>({
     salt: { type: String, required: true },
     signature: { type: String, required: true }
 }, { 
-    timestamps: true // Adds createdAt and updatedAt automatically
+    timestamps: true 
 });
 
 const DelegationModel = mongoose.model<SignedDelegationDoc>('SignedDelegation', signedDelegationSchema);
@@ -96,7 +98,7 @@ console.log(`🤖 Agent EOA started. Public address: ${agentAccount.address}`);
 console.log(`👁️ Watching contract: ${subscriptionManagerAddress}`);
 
 // ============================================
-// EXPRESS SERVER
+// EXPRESS SERVER & API ROUTES
 // ============================================
 
 const app = express();
@@ -127,7 +129,6 @@ app.post('/api/delegations', async (req, res) => {
             return res.status(400).json({ error: 'Invalid smart account address format' });
         }
 
-        // Upsert the delegation
         await DelegationModel.findOneAndUpdate(
             { userSmartAccountAddress: userSmartAccountAddress.toLowerCase() },
             {
@@ -351,7 +352,7 @@ async function processSubscriptions(dueSubscriptions: Subscription[]) {
 }
 
 async function initializeAgent() {
-    if (agentSmartAccount) return; // Already initialized
+    if (agentSmartAccount) return;
 
     try {
         chainEnvironment = getDeleGatorEnvironment(monadTestnet.id);
@@ -406,63 +407,70 @@ async function runAgentCycle() {
 }
 
 // ============================================
-// STARTUP SEQUENCE
+// STARTUP AND SHUTDOWN LOGIC
 // ============================================
 
-async function startServer() {
+let server: Server;
+let agentInterval: NodeJS.Timeout;
+
+async function start() {
     try {
         // 1. Connect to MongoDB
         console.log('📦 Connecting to MongoDB...');
         await mongoose.connect(MONGODB_URI);
-        console.log('✅ Connected to MongoDB:', MONGODB_URI);
+        console.log('✅ MongoDB connection established.');
 
         // 2. Start Express Server
-        app.listen(PORT, () => {
-            console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-            console.log('   API Endpoints:');
-            console.log('   - GET    /health');
-            console.log('   - POST   /api/delegations');
-            console.log('   - GET    /api/delegations');
-            console.log('   - GET    /api/delegations/:address');
-            console.log('   - DELETE /api/delegations/:address\n');
-        });
+        server = app.listen(Number(PORT), HOST, async () => {
+            console.log(`\n🚀 Server running on http://${HOST}:${PORT}`);
+            console.log('   API Endpoints are available.');
 
-        // 3. Initialize Agent (with delay for server startup)
-        setTimeout(async () => {
+            // 3. Initialize Agent now that the server is running
             try {
                 console.log('🤖 Initializing Agent...');
                 await initializeAgent();
                 
-                // 4. Start Agent Loop
+                // 4. Start Agent Loop if initialization was successful
                 console.log('⏰ Starting agent payment monitoring (15s interval)...\n');
-                setInterval(runAgentCycle, 15000);
-                runAgentCycle(); // Run immediately
-            } catch (error) {
-                console.error('❌ Agent initialization failed:', error);
-                console.log('⚠️ Server will continue running, but agent is inactive.');
+                agentInterval = setInterval(runAgentCycle, 15000);
+                runAgentCycle(); // Run first cycle immediately
+            } catch (initError) {
+                console.error('❌ Agent initialization failed:', initError);
+                console.log('⚠️ Server will continue running, but the agent is INACTIVE.');
             }
-        }, 2000);
+        });
 
     } catch (error) {
-        console.error('❌ Failed to start server:', error);
+        console.error('❌ Failed to start the application:', error);
         process.exit(1);
     }
 }
 
-// Handle graceful shutdown
-process.on('SIGINT', async () => {
-    console.log('\n\n🛑 Shutting down gracefully...');
-    await mongoose.connection.close();
-    console.log('✅ MongoDB connection closed');
-    process.exit(0);
-});
+async function shutdown(signal: string) {
+    console.log(`\n\n🛑 Received ${signal}. Shutting down gracefully...`);
+    
+    if (agentInterval) {
+        clearInterval(agentInterval);
+        console.log('✅ Agent timer stopped.');
+    }
 
-process.on('SIGTERM', async () => {
-    console.log('\n\n🛑 Received SIGTERM, shutting down...');
-    await mongoose.connection.close();
-    console.log('✅ MongoDB connection closed');
-    process.exit(0);
-});
+    server.close(async () => {
+        console.log('✅ HTTP server closed.');
+        await mongoose.connection.close();
+        console.log('✅ MongoDB connection closed.');
+        process.exit(0);
+    });
 
-// Start everything
-startServer();
+    // Force shutdown after a timeout if something hangs
+    setTimeout(() => {
+        console.error('Could not close connections in time, forcing shutdown.');
+        process.exit(1);
+    }, 10000);
+}
+
+// Listen for shutdown signals
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+
+// Start the application
+start();
