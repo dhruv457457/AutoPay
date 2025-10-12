@@ -5,7 +5,7 @@ networks:
   - id: 10143 # Monad Testnet Chain ID
     rpc: https://testnet-rpc.monad.xyz
     # IMPORTANT: Make sure this is the block number where you deployed the LATEST contract
-    start_block: 41931355 
+    start_block: 41932355 
     contracts:
       - name: SubscriptionManager
         # IMPORTANT: Make sure this is the address of your LATEST deployed contract
