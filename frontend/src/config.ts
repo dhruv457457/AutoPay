@@ -12,8 +12,8 @@ export const monadTestnet = defineChain({
     symbol: 'MON',
   },
   rpcUrls: {
-    default: { http: ['https://testnet-rpc.monad.xyz'] },
-    public: { http: ['https://testnet-rpc.monad.xyz'] },
+    default: { http: ['https://monad-testnet.g.alchemy.com/v2/prb3bBkj1v9clt6hCTvVqcOBOCCHgLc6'] },
+    public: { http: ['https://monad-testnet.g.alchemy.com/v2/prb3bBkj1v9clt6hCTvVqcOBOCCHgLc6'] },
   },
   blockExplorers: {
     default: { name: 'Monad Explorer', url: 'https://testnet.monadexplorer.com' },
@@ -22,7 +22,7 @@ export const monadTestnet = defineChain({
 });
 
 // Define RPC URLs
-export const NODE_RPC_URL = 'https://testnet-rpc.monad.xyz'; // Public node RPC for chain interactions (can use Alchemy if preferred)
+export const NODE_RPC_URL = 'https://monad-testnet.g.alchemy.com/v2/prb3bBkj1v9clt6hCTvVqcOBOCCHgLc6'; // Public node RPC for chain interactions (can use Alchemy if preferred)
 // export const NODE_RPC_URL = 'https://monad-testnet.g.alchemy.com/v2/prb3bBkj1v9clt6hCTvVqcOBOCCHgLc6'; // Uncomment if you prefer Alchemy
 export const BUNDLER_RPC_URL = `https://api.pimlico.io/v2/10143/rpc?apikey=${import.meta.env.VITE_PIMLICO_API_KEY}`; // Pimlico bundler for user operations
 

@@ -1,7 +1,7 @@
 import { isAddress } from 'viem';
 import type { Subscription } from '../hooks/useAutoPay'; // Assuming Subscription type is exported from useAutoPay
 
-const INDEXER_URL = 'https://indexer.dev.hyperindex.xyz/223f75b/v1/graphql';
+const INDEXER_URL = import.meta.env.VITE_INDEXER_URL as string;
 
 export const fetchSubscriptionsForUser = async (address: string): Promise<Subscription[]> => {
     if (!isAddress(address)) return [];
