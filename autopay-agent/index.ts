@@ -422,7 +422,7 @@ async function start() {
 
         // 2. Start Express Server
         server = app.listen(Number(PORT), HOST, async () => {
-            console.log(`\n🚀 Server running on http://${HOST}:${PORT}`);
+            console.log(`\n🚀 Server running on http://localhost:${PORT}`);
             console.log('   API Endpoints are available.');
 
             // 3. Initialize Agent now that the server is running

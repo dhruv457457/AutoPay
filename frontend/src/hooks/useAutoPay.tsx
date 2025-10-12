@@ -123,10 +123,23 @@ export const useAutoPay = () => {
                 })
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to save delegation to server.');
-            }
+      // The new, corrected code for useAutoPay.tsx
+
+if (!response.ok) {
+    let errorMessage;
+    try {
+        // First, TRY to parse the response for a specific JSON error message.
+        const errorData = await response.json();
+        errorMessage = errorData.error || `Server error: ${response.status}`;
+    } catch (e) {
+        // This CATCH block runs if the response body is empty or not valid JSON.
+        // We create a fallback error message using the status code.
+        errorMessage = `Revocation failed. Server responded with status ${response.status}.`;
+        console.error("Could not parse JSON from error response.", e);
+    }
+    // Finally, throw an error with whichever message we ended up with.
+    throw new Error(errorMessage);
+}
 
             // Sync state after success
             await syncAuthState();
