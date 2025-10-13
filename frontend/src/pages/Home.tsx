@@ -1,16 +1,16 @@
 import React from "react";
 import HeroSection from "../components/HeroSection";
 import InteractiveFeatures from "../components/InteractiveFeatures";
-import CTABanner from "../components/CTABanner";
-import ApprovalsOverview from "../components/ApprovalsOverview";
+import SubscriptionTiers from "../components/SubscriptionTiers";
+
 
 const Home: React.FC = () => {
   return (
     <div className="w-full min-h-screen">
       <HeroSection />
-  <ApprovalsOverview />
       <InteractiveFeatures />
-      <CTABanner />
+    
+      <SubscriptionTiers />
     </div>
   );
 };
