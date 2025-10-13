@@ -81,7 +81,7 @@ export const WalletAndAccountManager: React.FC = () => {
         return (
             <button
                 onClick={() => connect({ connector: injected() })}
-                className="bg-[#7f4de] text-white hover:bg-[#7437DC] cursor-pointer px-4 py-2 rounded-md text-sm font-semibold transition-colors"
+                className="bg-blue-600 text-white hover:bg-blue-700 shadow-md cursor-pointer px-4 py-2 rounded-md text-sm font-semibold transition-colors"
             >
                 Connect Wallet
             </button>
@@ -109,7 +109,7 @@ export const WalletAndAccountManager: React.FC = () => {
             <div className="relative" ref={dropdownRef}>
                 <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center space-x-2 text-sm bg-white/10 text-white px-3 py-2 rounded-md font-mono transition-colors hover:bg-white/20"
+                    className="flex items-center space-x-2 text-sm bg-blue-50 border border-blue-100 text-blue-700 px-3 py-2 rounded-md font-mono transition-colors hover:bg-blue-100"
                 >
                     {/* ✨ NEW: Animated address display */}
                     <AnimatePresence mode="wait" initial={false}>
@@ -119,7 +119,7 @@ export const WalletAndAccountManager: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -5 }}
                             transition={{ duration: 0.3 }}
-                            className="block w-28 text-left" // Fixed width to prevent layout shifts
+                            className="block w-28 text-left text-blue-700" // Fixed width to prevent layout shifts
                         >
                             {isShowingEoa
                                 ? `${eoaAddress?.slice(0, 6)}...${eoaAddress?.slice(-4)}`
@@ -142,35 +142,35 @@ export const WalletAndAccountManager: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute right-0 mt-2 p-2 w-72 bg-[#1A1A1D] border border-[#333336] rounded-lg shadow-xl z-20"
+                            className="absolute right-0 mt-2 p-2 w-72 bg-blue-50 border border-blue-100 rounded-lg shadow-xl z-20"
                         >
                             {/* EOA Wallet Section */}
                             <div className="px-2 pt-1 pb-2">
-                                <div className="text-xs font-semibold text-gray-400 uppercase">EOA Wallet (Controller)</div>
-                                <div className="flex items-center justify-between mt-1 text-gray-300 hover:text-white">
+                                <div className="text-xs font-semibold text-blue-700 uppercase">EOA Wallet (Controller)</div>
+                                <div className="flex items-center justify-between mt-1 text-blue-700">
                                     <span className="text-sm font-mono truncate pr-2">{eoaAddress}</span>
-                                    <button onClick={() => handleCopy(eoaAddress)} className="p-1 rounded hover:bg-white/10">
+                                    <button onClick={() => handleCopy(eoaAddress)} className="p-1 rounded hover:bg-blue-100">
                                         {copiedAddress === eoaAddress ? <CheckIcon /> : <CopyIcon />}
                                     </button>
                                 </div>
                             </div>
                             
                             {/* Smart Account Section */}
-                            <div className="px-2 pt-2 pb-2 border-t border-[#333336]">
-                                <div className="text-xs font-semibold text-green-400 uppercase">Smart Account</div>
-                                <div className="flex items-center justify-between mt-1 text-gray-300 hover:text-white">
+                            <div className="px-2 pt-2 pb-2 border-t border-blue-100">
+                                <div className="text-xs font-semibold text-blue-700 uppercase">Smart Account</div>
+                                <div className="flex items-center justify-between mt-1 text-blue-700">
                                     <span className="text-sm font-mono truncate pr-2">{saAddress}</span>
-                                    <button onClick={() => handleCopy(saAddress)} className="p-1 rounded hover:bg-white/10">
+                                    <button onClick={() => handleCopy(saAddress)} className="p-1 rounded hover:bg-blue-100">
                                         {copiedAddress === saAddress ? <CheckIcon /> : <CopyIcon />}
                                     </button>
                                 </div>
                             </div>
 
                             {/* Disconnect Button */}
-                            <div className="mt-1 pt-2 border-t border-[#333336]">
+                            <div className="mt-1 pt-2 border-t border-blue-100">
                                 <button
                                     onClick={() => { disconnect(); setIsDropdownOpen(false); }}
-                                    className="w-full flex items-center text-left px-2 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors rounded"
+                                    className="w-full flex items-center text-left px-2 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors rounded"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -190,7 +190,7 @@ export const WalletAndAccountManager: React.FC = () => {
         return (
              <button
                 disabled
-                className="flex items-center space-x-2 text-sm bg-white/10 text-white px-3 py-2 rounded-md font-mono cursor-wait"
+                className="flex items-center space-x-2 text-sm bg-blue-600 text-white px-3 py-2 rounded-md font-mono cursor-wait shadow-md"
             >
                 <Spinner />
                 <span>Setting up...</span>
@@ -203,7 +203,7 @@ export const WalletAndAccountManager: React.FC = () => {
         <button
             onClick={() => {if (walletClient && address) setupSmartAccount()}}
             disabled={!walletClient || !address}
-            className="bg-[#7f4de] text-white hover:bg-[#7437DC] cursor-pointer px-4 py-2 rounded-md text-sm font-semibold transition-colors"
+            className="bg-blue-600 text-white hover:bg-blue-700 cursor-pointer px-4 py-2 rounded-md text-sm font-semibold transition-colors shadow-md"
         >
             Setup Account
         </button>

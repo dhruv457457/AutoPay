@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  @apply bg-[#09090B];
+  @apply bg-[#ffffff];
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
