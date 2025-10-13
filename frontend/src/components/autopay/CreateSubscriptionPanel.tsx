@@ -6,13 +6,7 @@ import { subscriptionManagerAddress, subscriptionManagerAbi } from '../../lib/co
 import { erc20Abi } from '../../lib/abis/erc20Abi';
 import StatusDisplay from '../shared/StatusDisplay';
 import { supportedTokens } from '../../lib/tokens';
-
-// A simple chevron icon for the dropdown button
-const ChevronDownIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-gray-400">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-    </svg>
-);
+import { ChevronDown, Plus, Loader2 } from 'lucide-react';
 
 const CreateSubscriptionPanel: React.FC = () => {
     const { address: eoaAddress } = useAccount();
@@ -84,41 +78,56 @@ const CreateSubscriptionPanel: React.FC = () => {
 
     return (
         <div className="space-y-6">
-            <h3 className="text-xl font-bold">Create New Subscription</h3>
             <StatusDisplay status={status} />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="text" placeholder="Recipient Address (0x...)" value={recipient} onChange={e => setRecipient(e.target.value)} className="bg-gray-800 p-3 rounded-md focus:ring-2 focus:ring-purple-500 outline-none" />
-                
-                {/* NEW: Conditional rendering for the token input */}
+            
+            <div className="space-y-4">
+                {/* Recipient Address */}
                 <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Recipient Address
+                    </label>
+                    <input 
+                        type="text" 
+                        placeholder="0x..." 
+                        value={recipient} 
+                        onChange={e => setRecipient(e.target.value)} 
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors placeholder:text-gray-400 text-gray-900"
+                    />
+                </div>
+
+                {/* Token Selection */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Payment Token
+                    </label>
                     {isCustomToken ? (
                         <input
                             type="text"
                             placeholder="Paste Token Address (0x...)"
                             value={tokenAddress}
                             onChange={e => setTokenAddress(e.target.value)}
-                            className="w-full bg-gray-800 p-3 rounded-md focus:ring-2 focus:ring-purple-500 outline-none"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors placeholder:text-gray-400 text-gray-900"
                         />
                     ) : (
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 type="button"
                                 onClick={() => setIsTokenDropdownOpen(!isTokenDropdownOpen)}
-                                className="w-full bg-gray-800 p-3 rounded-md focus:ring-2 focus:ring-purple-500 outline-none flex items-center justify-between text-left"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none flex items-center justify-between text-left bg-white hover:bg-gray-50 transition-colors"
                             >
                                 {selectedToken ? (
                                     <span className="flex items-center gap-3">
                                         <img src={selectedToken.logo} alt={selectedToken.symbol} className="w-6 h-6 rounded-full" />
-                                        {selectedToken.name} ({selectedToken.symbol})
+                                        <span className="text-gray-900">{selectedToken.name} ({selectedToken.symbol})</span>
                                     </span>
                                 ) : (
-                                    <span>Select a token</span>
+                                    <span className="text-gray-500">Select a token</span>
                                 )}
-                                <ChevronDownIcon />
+                                <ChevronDown className="w-5 h-5 text-gray-400" />
                             </button>
 
                             {isTokenDropdownOpen && (
-                                <div className="absolute z-10 top-full mt-2 w-full bg-gray-700 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                <div className="absolute z-10 top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                     {supportedTokens.map(token => (
                                         <div
                                             key={token.address}
@@ -126,42 +135,78 @@ const CreateSubscriptionPanel: React.FC = () => {
                                                 setTokenAddress(token.address);
                                                 setIsTokenDropdownOpen(false);
                                             }}
-                                            className="p-3 hover:bg-gray-600 cursor-pointer flex items-center gap-3"
+                                            className="p-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 border-b border-gray-100 last:border-b-0"
                                         >
                                             <img src={token.logo} alt={token.symbol} className="w-6 h-6 rounded-full" />
-                                            <span>{token.name} ({token.symbol})</span>
+                                            <span className="text-gray-900">{token.name} ({token.symbol})</span>
                                         </div>
                                     ))}
                                 </div>
                             )}
                         </div>
                     )}
-                    {/* NEW: Toggle button */}
                     <button 
                         onClick={() => {
                             setIsCustomToken(!isCustomToken);
-                            // Reset to default token if switching back to dropdown
                             if (!isCustomToken === false) {
                                 setTokenAddress(supportedTokens[0].address);
                             } else {
-                                setTokenAddress(""); // Clear address when switching to custom
+                                setTokenAddress("");
                             }
                         }} 
-                        className="text-xs text-purple-400 hover:text-purple-300 mt-2 text-left"
+                        className="text-sm text-blue-600 hover:text-blue-700 mt-2 text-left transition-colors"
                     >
                         {isCustomToken ? "Select from list" : "Token not listed? Use address"}
                     </button>
                 </div>
 
-                <input type="text" placeholder="Amount (e.g., 15.0)" value={amount} onChange={e => setAmount(e.target.value)} className="bg-gray-800 p-3 rounded-md focus:ring-2 focus:ring-purple-500 outline-none" />
-                <select value={frequency} onChange={e => setFrequency(e.target.value)} className="bg-gray-800 p-3 rounded-md focus:ring-2 focus:ring-purple-500 outline-none">
-                    <option value={120}>2 Minutes (for testing)</option>
-                    <option value={2592000}>Monthly</option>
-                    <option value={31536000}>Yearly</option>
-                </select>
+                {/* Amount and Frequency */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Amount
+                        </label>
+                        <input 
+                            type="text" 
+                            placeholder="15.0" 
+                            value={amount} 
+                            onChange={e => setAmount(e.target.value)} 
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors placeholder:text-gray-400 text-gray-900"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Frequency
+                        </label>
+                        <select 
+                            value={frequency} 
+                            onChange={e => setFrequency(e.target.value)} 
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors bg-white text-gray-900"
+                        >
+                            <option value={120} className="text-gray-900">2 Minutes (for testing)</option>
+                            <option value={2592000} className="text-gray-900">Monthly</option>
+                            <option value={31536000} className="text-gray-900">Yearly</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <button onClick={handleCreate} disabled={status.type === 'loading'} className="w-full bg-purple-600 hover:bg-purple-700 p-3 rounded-md font-bold disabled:bg-gray-600 disabled:cursor-not-allowed">
-                {status.type === 'loading' ? 'Creating...' : 'Create Subscription'}
+
+            <button 
+                onClick={handleCreate} 
+                disabled={status.type === 'loading'} 
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:cursor-not-allowed"
+            >
+                {status.type === 'loading' ? (
+                    <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Creating...
+                    </>
+                ) : (
+                    <>
+                        <Plus className="w-4 h-4" />
+                        Create Subscription
+                    </>
+                )}
             </button>
         </div>
     );

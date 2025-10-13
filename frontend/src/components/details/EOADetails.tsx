@@ -2,6 +2,7 @@
 import React, { useState} from 'react';
 import { useAccount, useBalance } from 'wagmi';
 import { formatEther } from 'viem';
+import { Eye, EyeOff, Copy, Check, Wallet } from 'lucide-react';
 
 // A simple copy-to-clipboard utility hook
 const useCopyToClipboard = () => {
@@ -19,11 +20,15 @@ const EOADetails: React.FC = () => {
     const { address, isConnected } = useAccount();
     const { data: balanceData } = useBalance({ address });
     const { copied, copy } = useCopyToClipboard();
+    const [showBalance, setShowBalance] = useState(false);
 
     if (!isConnected || !address) {
         return (
-            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 h-full flex items-center justify-center">
-                <p className="text-gray-400">Please connect your wallet.</p>
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 h-full flex items-center justify-center">
+                <div className="text-center">
+                    <Wallet className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-500">Please connect your wallet</p>
+                </div>
             </div>
         );
     }
@@ -31,25 +36,54 @@ const EOADetails: React.FC = () => {
     const balance = balanceData ? formatEther(balanceData.value) : '0';
 
     return (
-        <div className="border border-[#333336] bg-[#0C0C0E] rounded-3xl p-4 h-full flex flex-col justify-between">
-            <div>
-                <h3 className="text-sm font-semibold text-blue-400">Connected Wallet (EOA)</h3>
-                <div className="mt-2 flex items-center gap-2">
-                    <p className="text-lg font-mono text-gray-200 truncate" title={address}>
-                        {address.slice(0, 6)}...{address.slice(-4)}
+        <div className="bg-gray-50 border border-gray-200 rounded-2xl shadow-sm p-8 h-full flex flex-col">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center">
+                    <Wallet className="w-7 h-7 text-blue-600" />
+                </div>
+                <div>
+                    <h3 className="text-lg font-bold text-gray-900">Connected Wallet (EOA)</h3>
+                    <p className="text-sm text-gray-500">Your primary wallet address</p>
+                </div>
+            </div>
+
+            {/* Address */}
+            <div className="mb-8">
+                <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200">
+                    <p className="text-sm font-mono text-gray-800 truncate flex-1" title={address}>
+                        {address.slice(0, 8)}...{address.slice(-6)}
                     </p>
-                    <button onClick={() => copy(address)} className="text-gray-400 hover:text-white transition-colors">
+                    <button 
+                        onClick={() => copy(address)} 
+                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded-lg"
+                        title="Copy address"
+                    >
                         {copied ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            <Check className="h-4 w-4 text-green-500" />
                         ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                            <Copy className="h-4 w-4" />
                         )}
                     </button>
                 </div>
             </div>
-            <div className="mt-4">
-                <p className="text-xs text-gray-500">Balance</p>
-                <p className="text-2xl font-bold text-white">{parseFloat(balance).toFixed(4)} MONAD</p>
+
+            {/* Balance */}
+            <div className="mt-auto">
+                <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">Balance</p>
+                    <button 
+                        onClick={() => setShowBalance(!showBalance)}
+                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded-lg"
+                    >
+                        {showBalance ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                </div>
+                <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <p className="text-3xl font-bold text-blue-900">
+                        {showBalance ? `${parseFloat(balance).toFixed(4)} MONAD` : '••••••••'}
+                    </p>
+                </div>
             </div>
         </div>
     );
