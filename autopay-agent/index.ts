@@ -223,7 +223,7 @@ async function fetchDueSubscriptions(): Promise<Subscription[]> {
     };
     
     try {
-        const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+        const headers: Record<string, string> = { 'Content-Type': 'application/json','x-hasura-admin-secret': 'testing' };
         
         const response = await fetch(INDEXER_URL!, { 
             method: 'POST', 
