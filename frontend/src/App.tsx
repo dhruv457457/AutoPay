@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Home from './pages/Home';
 import AutoPayPage from "./pages/AutoPayPage"; // 👈 Import the new page
+import Docs from "./pages/Docs";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,8 @@ function App() {
                   {/* 👇 Set the new AutoPayPage as the main route */}
                   <Route path="/" element={<Home />} />
                   <Route path="/auto-pay" element={<AutoPayPage />} />
+                  <Route path="/docs" element={<Docs />} />
+                  
                 </Routes>
               </main>
               <Footer />

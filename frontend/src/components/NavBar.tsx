@@ -10,19 +10,14 @@ import {
     Home,
     Repeat,
     CreditCard,
-    BookOpen,
-    Newspaper,
-    LifeBuoy,
-    Users
+    Dock
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
 } from "../components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
 import { WalletAndAccountManager } from './WalletAndAccountManager';
@@ -34,13 +29,7 @@ const mainNavItems = [
     // Assuming you have a '/subscriptions' route, otherwise change to '/'
     { href: '/subscriptions', icon: Repeat, label: 'Subscriptions' },
     { href: '/auto-pay', icon: CreditCard, label: 'AutoPay' },
-];
-
-const resourceNavItems = [
-    { href: '#', icon: BookOpen, label: 'Documentation' },
-    { href: '#', icon: Newspaper, label: 'Blog' },
-    { href: '#', icon: LifeBuoy, label: 'Help Center' },
-    { href: '#', icon: Users, label: 'Community' },
+    { href: '/docs', icon: Dock, label: 'Docs' },
 ];
 
 const NavBar: React.FC = () => {
@@ -82,43 +71,17 @@ const NavBar: React.FC = () => {
                             </NavigationMenuItem>
 
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger className="bg-transparent text-gray-700 hover:bg-blue-50 hover:text-blue-600 data-[active]:bg-blue-50 data-[state=open]:bg-blue-50">
-                                    Resources
-                                </NavigationMenuTrigger>
-                                <NavigationMenuContent className="bg-white text-gray-900 shadow-md border border-gray-200 rounded-md z-50">
-                                    <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                                        <NavigationMenuLink asChild>
-                                            <Link to="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600">
-                                                <div className="text-sm font-medium leading-none">Documentation</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">Comprehensive guides and API documentation.</p>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link to="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600">
-                                                <div className="text-sm font-medium leading-none">Blog</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">Latest insights, tutorials, and industry updates.</p>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link to="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600">
-                                                <div className="text-sm font-medium leading-none">Help Center</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">Get help and find answers to common questions.</p>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                        <NavigationMenuLink asChild>
-                                            <Link to="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600">
-                                                <div className="text-sm font-medium leading-none">Community</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">Join our community of developers and creators.</p>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </div>
-                                </NavigationMenuContent>
+                                <NavigationMenuLink asChild>
+                                    <Link to="/docs" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                                        Docs
+                                    </Link>
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
 
-                    {/* Wallet/Manager (visible on all sizes for immediate feedback) */}
-                    <div className="flex items-center space-x-3">
+                    {/* Wallet/Manager: show only on large screens in header; mobile users will use the sheet footer */}
+                    <div className="hidden lg:flex items-center space-x-3">
                         <WalletAndAccountManager />
                     </div>
 
@@ -158,22 +121,6 @@ const NavBar: React.FC = () => {
                                 </nav>
 
                                 <div className="my-4 border-t border-gray-200" />
-
-                                <div className="flex flex-col gap-2">
-                                    <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Resources</h3>
-                                    <nav className="flex flex-col gap-1">
-                                        {resourceNavItems.map((item) => (
-                                            <Link
-                                                key={item.label}
-                                                to={item.href}
-                                                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-gray-700 transition-all hover:bg-gray-100 hover:text-gray-900"
-                                            >
-                                                <item.icon className="h-5 w-5" />
-                                                <span className="text-md">{item.label}</span>
-                                            </Link>
-                                        ))}
-                                    </nav>
-                                </div>
                             </div>
 
                             {/* Mobile Menu Footer: include compact wallet manager so users see connect/address in sidebar */}
