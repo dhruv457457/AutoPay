@@ -1,223 +1,176 @@
-import React from "react";
-import { motion } from "framer-motion";
-import {
-  CalendarDays,
-  Bot,
-  Repeat,
-  CheckCircle,
-  Zap,
-  Droplet,
-} from "lucide-react";
-import { cn } from "../lib/utils";
+import React from 'react';
+import { Wallet, BarChart3, ShieldCheck, Zap, Database } from 'lucide-react';
 
-// --- VISUALS ---
-
-const GaslessVisual = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center text-center relative overflow-hidden">
-    <Zap className="w-20 h-20 text-yellow-400" />
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center"
-      animate={{ scale: [1, 1.5, 1], opacity: [0.8, 0, 0.8] }}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <Droplet className="w-10 h-10 text-gray-400" />
-    </motion.div>
-    <p className="mt-4 font-bold text-gray-800">Gasless Transactions</p>
-  </div>
-);
+// --- Visual Components for the New Feature Cards ---
 
 const MetaMaskVisual = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center text-center">
-    <motion.img
-      src="https://support.metamask.io/img/favicons/favicon-96x96.png"
-      alt="MetaMask logo"
-      className="h-20 w-auto object-contain"
-      whileHover={{ scale: 1.1 }}
-      transition={{ type: "spring", stiffness: 300 }}
-    />
-    <p className="mt-4 font-bold text-gray-800">Smart Accounts</p>
-  </div>
+    <div className="bg-white p-6 rounded-lg mt-6 text-center ">
+        <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" 
+            alt="MetaMask Logo" 
+            className="h-40 w-40 mx-auto mb-4"
+        />
+    </div>
+);
+
+
+const SecurityVisual = () => (
+    <div className="bg-white p-6 rounded-lg mt-6 text-center ">
+        <span className="font-semibold text-gray-800">Your EOA Wallet (Controller)</span>
+        <div className="text-2xl my-2 text-gray-400">↓</div>
+        <div className="bg-green-50 text-green-800 font-semibold p-3 rounded-md border border-green-200">
+            AutoPay Smart Account (Handles Payments)
+        </div>
+        <p className="text-sm text-gray-500 mt-3">
+            Your main wallet is safe. It only delegates specific permissions to the smart account for payments.
+        </p>
+    </div>
+);
+
+const AnalyticsVisual = () => (
+     <div className="bg-gray-50 p-10 rounded-lg mt-6 ">
+        <img 
+            src="https://i.ibb.co/xKQ3kQKL/On-chain.png" 
+            alt="Analytics Graph" 
+            className="w-full h-auto rounded " 
+        />
+    </div>
 );
 
 const MonadVisual = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center">
-    <svg
-      className="w-60 h-60"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fill="#836EF9"
-        d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"
-      />
-    </svg>
-    <p className="mt-3 font-mono text-gray-500 text-sm">10,000 TPS</p>
-  </div>
+    <div className="bg-white p-6 rounded-lg mt-6 text-center ">
+        <svg className="w-40 h-40 mx-auto mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/>
+        </svg>
+        <h4 className="font-semibold text-gray-800">High-Performance L1</h4>
+        
+    </div>
 );
 
 const EnvioVisual = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center">
-    <motion.img
-      src="https://docs.envio.dev/img/envio-logo.png"
-      alt="Envio Logo"
-      className="h-24 w-auto object-contain"
-      whileHover={{ scale: 1.1 }}
-      transition={{ type: "spring", stiffness: 300 }}
-    />
-    <p className="mt-3 font-bold text-gray-800">Real-Time Indexing</p>
-  </div>
-);
-
-const SchedulingVisual = () => (
-  <div className="relative w-full h-full flex items-center justify-center">
-    <motion.div
-      className="absolute w-40 h-40"
-      animate={{ rotate: 360 }}
-      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-    >
-      <svg viewBox="0 0 200 200" className="absolute inset-0">
-        <circle
-          cx="100"
-          cy="100"
-          r="70"
-          fill="none"
-          stroke="#D1D5DB"
-          strokeWidth="2"
-          strokeDasharray="4 8"
+     <div className="bg-white p-6 rounded-lg mt-6 text-center ">
+        <img 
+            src="https://docs.envio.dev/img/envio-logo.png" 
+            alt="Envio Logo" 
+            className="h-32 w-auto mx-auto mb-4"
         />
-      </svg>
-      <motion.div
-        className="absolute top-[44px] left-1/2 -ml-2 w-3 h-3 bg-blue-500 rounded-full"
-        animate={{ scale: [1, 1.3, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-[44px] right-1/2 -mr-2 w-3 h-3 bg-teal-500 rounded-full"
-        animate={{ scale: [1, 1.3, 1] }}
-        transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-      />
-    </motion.div>
-    <CalendarDays className="w-10 h-10 text-gray-700" />
-  </div>
+        <h4 className="font-semibold text-gray-800">Real-Time Data Indexing</h4>
+    </div>
 );
 
-const AutomationVisual = () => (
-  <div className="relative w-full h-full flex items-center justify-center overflow-hidden p-4">
-    <motion.div
-      className="z-10 w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center shadow-lg"
-      animate={{ scale: [1, 1.05, 1] }}
-      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <Bot className="w-12 h-12 text-white" />
-    </motion.div>
-    {[...Array(5)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20 + i * 8, repeat: Infinity, ease: "linear" }}
-      >
-        <motion.div
-          style={{ transform: `translateY(-${80 + i * 15}px)` }}
-          className="w-8 h-8 bg-white shadow-md rounded-full flex items-center justify-center"
-        >
-          {i % 2 === 0 ? (
-            <Repeat className="w-4 h-4 text-gray-500" />
-          ) : (
-            <CheckCircle className="w-4 h-4 text-green-500" />
-          )}
-        </motion.div>
-      </motion.div>
-    ))}
-  </div>
-);
 
-// --- UPDATED features array for the new 3x2 layout ---
-const features = [
+const newFeatures = [
   {
-    title: "Built on Monad",
-    description: "High-performance L1 with 10,000 TPS.",
-    visual: <MonadVisual />,
-    colSpan: "lg:col-span-2",
+    icon: <Wallet className="w-5 h-5" />,
+    smallTitle: "MetaMask Smart Accounts",
+    mainTitle: "Seamless user onboarding.",
+    description: "Utilize the power of MetaMask's smart accounts for enhanced security, gas sponsorship, and advanced permissions.",
+    visual: <MetaMaskVisual />
   },
   {
-    title: "Automated Payments Agent",
-    description:
-      "Our decentralized agent executes your payments securely and on time.",
-    visual: <AutomationVisual />,
-    colSpan: "lg:col-span-1",
+    icon: <ShieldCheck className="w-5 h-5" />,
+    smallTitle: "Non-Custodial Security",
+    mainTitle: "Security is paramount.",
+    description: "Payments are executed from a secure, non-custodial smart account that you control. Your main wallet's assets are never at risk.",
+    visual: <SecurityVisual />
   },
   {
-    title: "Dynamic Payment Schedules",
-    description: "From streaming to annual subscriptions.",
-    visual: <SchedulingVisual />,
-    colSpan: "lg:col-span-1",
+    icon: <BarChart3 className="w-5 h-5" />,
+    smallTitle: "On-Chain Analytics",
+    mainTitle: "Real-time revenue tracking.",
+    description: "Monitor and analyze all subscription payments and revenue streams through our indexed, real-time analytics dashboard.",
+    visual: <AnalyticsVisual />
   },
   {
-    title: "MetaMask Smart Accounts",
-    description: "Leveraging modular accounts for advanced permissions.",
-    visual: <MetaMaskVisual />,
-    colSpan: "lg:col-span-1",
+    icon: <Zap className="w-5 h-5" />,
+    smallTitle: "Built on Monad",
+    mainTitle: "High-performance blockchain.",
+    description: "Experience the speed and low costs of the Monad network, a high-performance L1 designed for scalability.",
+    visual: <MonadVisual />
   },
   {
-    title: "Gasless Transactions",
-    description:
-      "Users can pay for subscriptions without needing native tokens for gas.",
-    visual: <GaslessVisual />,
-    colSpan: "lg:col-span-1",
-  },
-
-  {
-    title: "Indexed by Envio",
-    description: "Real-time APIs for all approval data.",
-    visual: <EnvioVisual />,
-    colSpan: "lg:col-span-2",
-  },
+    icon: <Database className="w-5 h-5" />,
+    smallTitle: "Indexed by Envio",
+    mainTitle: "Lightning-fast data access.",
+    description: "All subscription and payment data is indexed by Envio, providing instant and reliable data for our dashboard.",
+    visual: <EnvioVisual />
+  }
 ];
 
-// --- BENTO GRID ITEM COMPONENT ---
-const BentoGridItem: React.FC<{ feature: (typeof features)[0] }> = ({
-  feature,
-}) => {
-  return (
-    <motion.div
-      className={cn(
-        "relative bg-gray-50 border border-gray-100 rounded-3xl flex flex-col group transition-all duration-300 p-6 cursor-pointer",
-        feature.colSpan
-      )}
-    >
-      <div className="flex-grow h-32 mb-4 flex items-center justify-center">
-        {feature.visual}
-      </div>
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">
-          {feature.title}
-        </h3>
-        <p className="text-sm text-gray-600 leading-tight">
-          {feature.description}
-        </p>
-      </div>
-    </motion.div>
-  );
-};
-
-// --- MAIN COMPONENT ---
 const InteractiveFeatures: React.FC = () => {
   return (
     <section className="bg-white py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto ">
-        <div className="text-center mb-16">
-          <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-            Built with cutting-edge components to deliver a powerful, seamless,
-            and secure user experience.
-          </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section 1: Onboarding and Engagement (Existing) */}
+        <div className="mb-24">
+            <p className="text-base font-semibold text-green-700 mb-2">ON-CHAIN AUTOMATION</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-12">
+                Streamline your Web3 revenue <br /> and treasury operations
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 ">
+                <div className='border border-gray-200 p-8'>
+                    <div className=" p-6 bg-gray-50 mb-8">
+                        <img src="https://i.ibb.co/Lzfy02SC/Gemini-Generated-Image-qtmw4qqtmw4qqtmw.png" alt="Create On-Chain Subscriptions" className="w-full h-auto" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">Create On-Chain Subscriptions</h3>
+                    <p className="text-lg text-gray-600 mb-6">Define recurring payment plans directly on-chain. Set any ERC-20 token, amount, and frequency to accept subscriptions for your dApp, service, or DAO.</p>
+                    <a href="#" className="text-green-700 font-semibold hover:underline">Explore Subscription Models</a>
+                </div>
+                    <div className='border border-gray-200 p-8'>
+                        <div className="p-6 bg-gray-50 mb-8">
+                            <img src="https://i.ibb.co/CsV2JB09/gasless.png" alt="Gasless User Onboarding" className="w-full h-auto rounded-lg shadow-md" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Gasless User Onboarding</h3>
+                        <p className="text-lg text-gray-600 mb-6">Remove friction for your users. With smart accounts, you can sponsor gas fees, allowing customers to set up their first subscription without needing native tokens.</p>
+                        <a href="#" className="text-green-700 font-semibold hover:underline">Learn about Smart Accounts</a>
+                    </div>
+            </div>
         </div>
-        {/* Updated grid to be 2 columns on lg screens */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 auto-rows-[21rem]">
-          {features.map((feature, i) => (
-            <BentoGridItem key={i} feature={feature} />
-          ))}
+
+        
+        {/* --- NEW SECTION --- */}
+        <div className="mt-24">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+                {/* Card 1 & 2 */}
+                {newFeatures.slice(0, 2).map((feature) => (
+                    <div key={feature.mainTitle} className=" border border-gray-200 p-8">
+                        <div className="flex items-center gap-3 text-green-700 font-semibold text-sm">
+                            {feature.icon}
+                            <span>{feature.smallTitle}</span>
+                        </div>
+                        <h3 className="text-3xl font-bold text-gray-900 mt-4">{feature.mainTitle}</h3>
+                        <p className="text-lg text-gray-600 mt-2">{feature.description}</p>
+                        {feature.visual}
+                    </div>
+                ))}
+            </div>
+            {/* Card 3 */}
+            <div className=" border border-gray-200 p-8">
+                <div className="flex items-center gap-3 text-green-700 font-semibold text-sm">
+                    {newFeatures[2].icon}
+                    <span>{newFeatures[2].smallTitle}</span>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mt-4">{newFeatures[2].mainTitle}</h3>
+                <p className="text-lg text-gray-600 mt-2">{newFeatures[2].description}</p>
+                {newFeatures[2].visual}
+            </div>
+
+            {/* Card 4 & 5 */}
+             <div className="grid grid-cols-1 lg:grid-cols-2">
+                {newFeatures.slice(3, 5).map((feature) => (
+                    <div key={feature.mainTitle} className=" border border-gray-200 p-8">
+                        <div className="flex items-center gap-3 text-green-700 font-semibold text-sm">
+                            {feature.icon}
+                            <span>{feature.smallTitle}</span>
+                        </div>
+                        <h3 className="text-3xl font-bold text-gray-900 mt-4">{feature.mainTitle}</h3>
+                        <p className="text-lg text-gray-600 mt-2">{feature.description}</p>
+                        {feature.visual}
+                    </div>
+                ))}
+            </div>
         </div>
+
       </div>
     </section>
   );

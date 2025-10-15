@@ -50,7 +50,6 @@ const NavBar: React.FC = () => {
                 <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 md:px-6">
                     {/* Logo */}
                     <Link to="/" className="flex items-center space-x-2">
-                        <Braces className="h-8 w-8 text-blue-600" />
                         <span className="text-xl font-bold text-gray-900">AutoPay</span>
                     </Link>
 

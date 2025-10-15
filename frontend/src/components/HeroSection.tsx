@@ -1,73 +1,51 @@
-import { Wallet, Search, HeartHandshake, Zap } from "lucide-react";
+
+import { Link } from 'react-router-dom';
+
+// Style object for the dot-grid pattern
+const gridStyle = {
+    backgroundImage: 'radial-gradient(circle at 1px 1px, #d1d5db 1px, transparent 0)',
+    backgroundSize: '20px 20px',
+};
 
 export default function HeroSection() {
   return (
-    <div className="relative w-full flex flex-col items-center justify-center bg-white min-h-screen">
-      <div className="max-w-7xl">
-        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-900">
-          Automate your <span className="text-blue-600">crypto</span> payments with ease
+    <div className="w-full bg-white px-4 sm:px-8 md:px-20 py-20 relative">
+      
+      {/* Decorative Grids */}
+      <div style={gridStyle} className="absolute top-8 left-1/2 -translate-x-1/2 h-16 w-1/4 z-0" aria-hidden="true"></div>
+      <div style={gridStyle} className="absolute bottom-8 left-1/2 -translate-x-1/2 h-24 w-2/3 z-0" aria-hidden="true"></div>
+      <div style={gridStyle} className="absolute left-8 top-1/2 -translate-y-1/2 w-24 h-1/3 z-0" aria-hidden="true"></div>
+      <div style={gridStyle} className="absolute right-8 top-1/2 -translate-y-1/2 w-24 h-1/3 z-0" aria-hidden="true"></div>
+
+      {/* Main Content Box */}
+      <div className="relative z-10 max-w-7xl mx-auto border border-gray-200 bg-white flex flex-col items-center justify-center text-center py-24 px-4 sm:px-6 lg:px-8">
+        
+        {/* Headline */}
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 max-w-4xl leading-tight">
+          Automate Your <span className="text-green-600">On-Chain Recurring</span> Payments
         </h1>
 
-        <p className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-700">
-          With our AI-driven system, set up recurring subscriptions, manage allowances, and enjoy seamless, automated transactions on the blockchain.
+        {/* Subheading */}
+        <p className="mt-6 text-lg text-gray-600 max-w-3xl">
+          Leverage smart accounts to offer gasless, multi-token subscriptions and payroll. Streamline your revenue, manage DAO grants, and enhance user experience with true on-chain automation.
         </p>
 
-        {/* Connection Section */}
-        <div className="relative z-10 mt-20 w-full mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center relative z-10 bg-gray-50 border border-gray-100 rounded-3xl p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Wallet className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Connect Your Wallet
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Easily connect your wallet to get started with the AutoPay system.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center relative z-10 bg-gray-50 border border-gray-100 rounded-3xl p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Search className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Set Up a Subscription
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Define the recipient, amount, and frequency for your recurring payment.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center relative z-10 bg-gray-50 border border-gray-100 rounded-3xl p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <HeartHandshake className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Authorize the Agent
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Grant secure, one-time permission for our agent to process payments.
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-col items-center text-center relative z-10 bg-gray-50 border border-gray-100 rounded-3xl p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Zap className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Enjoy Automation
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Your payments are now automated. Sit back and relax!
-              </p>
-            </div>
-          </div>
+        {/* Call-to-Action Buttons */}
+        <div className="mt-10 flex items-center justify-center gap-x-6">
+          <Link
+            to="/auto-pay"
+            className="rounded-md bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-colors"
+          >
+            Launch Dashboard
+          </Link>
+          <a 
+            href="#" 
+            className="rounded-md bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors"
+          >
+            View Documentation
+          </a>
         </div>
+        
       </div>
     </div>
   );

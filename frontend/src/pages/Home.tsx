@@ -9,7 +9,6 @@ const Home: React.FC = () => {
     <div className="w-full min-h-screen">
       <HeroSection />
       <InteractiveFeatures />
-    
       <SubscriptionTiers />
     </div>
   );

@@ -81,7 +81,7 @@ export const WalletAndAccountManager: React.FC = () => {
         return (
             <button
                 onClick={() => connect({ connector: injected() })}
-                className="bg-blue-600 text-white hover:bg-blue-700 shadow-md cursor-pointer px-4 py-2 rounded-md text-sm font-semibold transition-colors"
+                className="bg-green-600 text-white hover:bg-green-700 shadow-md cursor-pointer px-4 py-2 rounded-md text-sm font-semibold transition-colors"
             >
                 Connect Wallet
             </button>
@@ -109,7 +109,7 @@ export const WalletAndAccountManager: React.FC = () => {
             <div className="relative" ref={dropdownRef}>
                 <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center space-x-2 text-sm bg-blue-50 border border-blue-100 text-blue-700 px-3 py-2 rounded-md font-mono transition-colors hover:bg-blue-100"
+                    className="flex items-center space-x-2 text-sm bg-blue-50 border border-blue-100 text-green-700 px-3 py-2 rounded-md font-mono transition-colors hover:bg-blue-100"
                 >
                     {/* ✨ NEW: Animated address display */}
                     <AnimatePresence mode="wait" initial={false}>
@@ -119,7 +119,7 @@ export const WalletAndAccountManager: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -5 }}
                             transition={{ duration: 0.3 }}
-                            className="block w-28 text-left text-blue-700" // Fixed width to prevent layout shifts
+                            className="block w-28 text-left text-green-700" // Fixed width to prevent layout shifts
                         >
                             {isShowingEoa
                                 ? `${eoaAddress?.slice(0, 6)}...${eoaAddress?.slice(-4)}`
@@ -146,8 +146,8 @@ export const WalletAndAccountManager: React.FC = () => {
                         >
                             {/* EOA Wallet Section */}
                             <div className="px-2 pt-1 pb-2">
-                                <div className="text-xs font-semibold text-blue-700 uppercase">EOA Wallet (Controller)</div>
-                                <div className="flex items-center justify-between mt-1 text-blue-700">
+                                <div className="text-xs font-semibold text-green-700 uppercase">EOA Wallet (Controller)</div>
+                                <div className="flex items-center justify-between mt-1 text-green-700">
                                     <span className="text-sm font-mono truncate pr-2">{eoaAddress}</span>
                                     <button onClick={() => handleCopy(eoaAddress)} className="p-1 rounded hover:bg-blue-100">
                                         {copiedAddress === eoaAddress ? <CheckIcon /> : <CopyIcon />}
@@ -157,8 +157,8 @@ export const WalletAndAccountManager: React.FC = () => {
                             
                             {/* Smart Account Section */}
                             <div className="px-2 pt-2 pb-2 border-t border-blue-100">
-                                <div className="text-xs font-semibold text-blue-700 uppercase">Smart Account</div>
-                                <div className="flex items-center justify-between mt-1 text-blue-700">
+                                <div className="text-xs font-semibold text-green-700 uppercase">Smart Account</div>
+                                <div className="flex items-center justify-between mt-1 text-green-700">
                                     <span className="text-sm font-mono truncate pr-2">{saAddress}</span>
                                     <button onClick={() => handleCopy(saAddress)} className="p-1 rounded hover:bg-blue-100">
                                         {copiedAddress === saAddress ? <CheckIcon /> : <CopyIcon />}

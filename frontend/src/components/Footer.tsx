@@ -16,8 +16,8 @@ const productLinks = [
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-white p-20">
-      <div className="max-w-7xl mx-auto p-10 bg-gray-50 border border-gray-100 rounded-3xl">
+    <footer className="bg-white border border-gray-200">
+      <div className="max-w-7xl mx-auto p-10 ">
         {/* Top section with link columns */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           
