@@ -1,2 +1,204 @@
-# AutoPay
+# AutoPay: Decentralized Subscription & Automation Protocol
 
+**A "set-and-forget" recurring payment system built on Monad using MetaMask Smart Accounts and secure delegation.**
+
+AutoPay is a full-stack dApp designed to unlock the subscription economy for Web3. It provides a seamless, user-friendly experience for creating on-chain recurring payments, abstracting away the complexities of blockchain interactions.
+
+---
+
+| **Quick Links** | |
+| :--- | :--- |
+| 🚀 **[Live Demo on Vercel](https://autopay-mon.vercel.app/)** | 📹 **[Video Demo (Link to Your Video)]** |
+| 🔗 **[GitHub Repository (Link to Your Repo)]** | 📄 **[Slide Deck/Presentation (Link to Your Slides)]** |
+
+---
+
+## 🏆 Hackathon Submission
+
+This project is submitted for the **MetaMask Smart Accounts x Monad Dev Cook Off**.
+
+We are competing for the following prize categories:
+* **Best on-chain automation:** Our core feature is an autonomous backend agent that executes scheduled payments.
+* **Best consumer application:** We provide a simple, user-friendly "Web2" experience for a complex Web3 task.
+* **Most innovative use of Delegations:** Our agent's ability to act on a user's behalf is powered entirely by scoped, secure delegations.
+* **Best use of Envio & Envio Bonus:** Our architecture is critically dependent on Envio for efficient, real-time data indexing.
+
+## ✨ The Vision: Unlocking Web3's Subscription Economy
+
+The digital economy runs on subscriptions, but Web3 has struggled to keep up. The need to manually sign every transaction creates a barrier for users and businesses alike.
+
+AutoPay bridges this gap. We empower developers and businesses to offer seamless subscription services, and give users a familiar, automated payment experience without sacrificing self-custody or security. This unlocks a new wave of on-chain business models, from SaaS and content platforms to DAO payroll and gaming passes.
+
+### Key Features
+
+* **Effortless Onboarding:** We abstract away the complexity of creating and deploying smart accounts. Users simply connect their existing wallet, and AutoPay handles the rest, providing them with a powerful smart account ready for automation.
+
+* **One-Time Authorization with Secure Delegation:** At the heart of AutoPay is the MetaMask Delegation Toolkit. Users grant permission to our automated agent with a single, one-time signature. This delegation is narrowly scoped, meaning the agent can *only* execute payments and cannot perform any other action, ensuring user funds are always safe.
+
+* **Full Self-Custody:** Unlike centralized payment solutions, AutoPay is fully non-custodial. Users' funds remain in their own smart accounts, under their control, until the exact moment a payment is due.
+
+* **Automated, Gasless Payments:** Once authorized, our backend agent takes over. It monitors subscriptions and automatically pays them on time. The agent handles the gas fees for these recurring transactions, creating a true "gasless" experience for the user's ongoing payments.
+
+* **Real-Time Dashboard:** A clean, intuitive interface allows users to create new subscriptions, monitor the status of active ones, and instantly cancel them at any time, giving them complete control.
+
+### Potential Use Cases
+* **Decentralized SaaS:** A Web3 analytics platform billing users monthly in USDC.
+* **Creator Economy:** Fans subscribing to their favorite creators with recurring crypto payments.
+* **Gaming:** Monthly passes or subscriptions for in-game assets.
+* **DAO Operations:** Automated payroll for DAO contributors.
+* **DeFi Automation:** Setting up automated "Dollar-Cost Averaging" (DCA) strategies.
+
+## 🛠️ How It Works: The Architecture
+
+Our architecture is divided into two primary flows: the one-time user setup and the continuous automated backend cycle.
+
+### Diagram 1: User Onboarding & Subscription Creation
+This diagram shows how a user connects, authorizes the agent, and creates a new subscription on the Monad blockchain.
+
+![User Interaction Flow](https://res.cloudinary.com/dfa0ptxxk/image/upload/v1760698914/Gemini_Generated_Image_yfr2i6yfr2i6yfr2_w2roah.png)
+
+### Diagram 2: Automated Backend Payment Cycle
+This diagram illustrates the "magic" behind the scenes, where our agent uses Envio to find due payments and executes them on behalf of the user.
+
+![Backend Payment Cycle](https://res.cloudinary.com/dfa0ptxxk/image/upload/v1760698914/Gemini_Generated_Image_ob27h8ob27h8ob27_azdrzu.png)
+
+---
+
+## 🏆 Our Use of Envio 
+
+Envio is not just an add-on for AutoPay; it is the **critical data backbone** that makes our automated backend agent viable and efficient. Without Envio's high-performance indexing, our service could not operate at scale.
+
+Here is how we meet and exceed the bounty's qualification requirements:
+
+#### ✅ A working indexer using Envio.
+The `/envioIndexer` directory in our repository contains the complete, working configuration (`config.yaml`), data schema (`schema.graphql`), and event handling logic (`EventHandlers.ts`) for our indexer. It is deployed and actively indexing our `SubscriptionManager` smart contract on the Monad testnet.
+
+#### ✅ Queries or endpoints generated by Envio being consumed in the project.
+Our backend agent **constantly queries the Envio-generated GraphQL endpoint** to function. Every 15 seconds, the agent runs a query to find subscriptions that are due for payment.
+
+* **Endpoint Consumed:** `https://indexer.dev.hyperindex.xyz/d2664b7/v1/graphql`
+* **Example Query from our Agent:**
+    ```graphql
+    query GetActiveSubscriptions {
+      Subscription(where: { isActive: { _eq: true } }) {
+        id
+        owner
+        subscriber
+        frequency
+        lastPaymentTimestamp
+      }
+    }
+    ```
+This real-time data feed is the trigger for our entire automation logic.
+
+#### ✅ Documentation and code that show Envio actively supporting the project's functionality.
+* **Architecture Diagram 2 (above)** explicitly shows the Envio Indexer as the central data source for our Backend Agent.
+* The **backend agent's source code** (`backend/index.js`) contains the `fetchDueSubscriptions` function, which makes a `fetch` call to the Envio GraphQL endpoint. This demonstrates direct consumption of the indexed data.
+
+In summary, AutoPay is a prime example of a project built to leverage a high-performance indexer. Envio allows our agent to be stateless, fast, and scalable, making it the perfect choice for the **Best use of Envio** bounty.
+
+---
+
+## 💻 Tech Stack
+
+* **Frontend:** React (Vite), wagmi, viem, TailwindCSS, Framer Motion
+* **Smart Accounts:** `permissionless.js`, `@metamask/delegation-toolkit`
+* **Blockchain:** Monad Testnet, Solidity
+* **Backend Agent:** Node.js, Express
+* **Indexer:** **Envio**
+* **Database:** MongoDB
+* **Bundler:** Pimlico
+
+## 🚀 Setup and Installation
+
+Follow these steps to run the project locally.
+
+### 1. Prerequisites
+* Node.js (v18 or later)
+* `pnpm` package manager
+* A wallet with Monad Testnet ETH.
+
+### 2. Clone the Repository
+```bash
+git clone [Your-GitHub-Repo-Link]
+cd autopay-project
+```
+
+### 3. Backend Agent & API Setup
+```bash
+# Navigate to the backend directory
+cd backend
+
+# Install dependencies
+pnpm install
+
+# Create a .env file and add your credentials using the schema below
+touch .env
+```
+**`backend/.env` Schema:**
+```env
+# The private key of the EOA that will fund and control the agent's smart account
+AGENT_PRIVATE_KEY="YOUR_AGENT_EOA_PRIVATE_KEY"
+
+# Your Pimlico API Key for the bundler
+PIMLICO_API_KEY="YOUR_PIMLICO_API_KEY"
+
+# RPC URLs for Monad Testnet
+NODE_RPC_URL="[https://testnet-rpc.monad.xyz](https://testnet-rpc.monad.xyz)"
+BUNDLER_RPC_URL="[https://api.pimlico.io/v2/10143/rpc?apikey=YOUR_PIMLICO_API_KEY](https://api.pimlico.io/v2/10143/rpc?apikey=YOUR_PIMLICO_API_KEY)"
+
+# Port for the local server
+PORT=3001
+
+# The GraphQL endpoint for your deployed Envio Indexer
+INDEXER_URL="YOUR_ENVIO_INDEXER_GRAPHQL_URL"
+
+# Your MongoDB connection string
+MONGODB_URI="YOUR_MONGODB_CONNECTION_STRING"
+```
+```bash
+# Start the agent
+pnpm start
+```
+> **Important:** The first time you run the agent, it will print its **Agent Smart Account Address**. Copy this address and paste it into `frontend/src/hooks/useAutoPay.ts`.
+
+### 4. Envio Indexer Setup
+The indexer is already deployed, but to run it locally for development:
+```bash
+# Navigate to the indexer directory
+cd envioIndexer
+
+# Install dependencies
+pnpm install
+
+# Start the indexer
+pnpm dev
+```
+
+### 5. Frontend Application Setup
+```bash
+# Navigate to the frontend directory
+cd frontend
+
+# Install dependencies
+pnpm install
+
+# Create a .env file and add your credentials using the schema below
+touch .env
+```
+**`frontend/.env` Schema:**
+```env
+# Your Pimlico API Key
+VITE_PIMLICO_API_KEY="YOUR_PIMLICO_API_KEY"
+
+# The GraphQL endpoint for your deployed Envio Indexer
+VITE_INDEXER_URL="YOUR_ENVIO_INDEXER_GRAPHQL_URL"
+
+# The URL for your locally running backend agent
+VITE_AGENT_URL="http://localhost:3001"
+```
+```bash
+# Start the frontend app
+pnpm dev
+```
+Your local application should now be running at `http://localhost:5173`.
