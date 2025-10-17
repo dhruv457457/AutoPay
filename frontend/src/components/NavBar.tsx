@@ -27,7 +27,6 @@ import { cn } from '../lib/utils'; // Make sure to import cn utility
 const mainNavItems = [
     { href: '/', icon: Home, label: 'Home' },
     // Assuming you have a '/subscriptions' route, otherwise change to '/'
-    { href: '/subscriptions', icon: Repeat, label: 'Subscriptions' },
     { href: '/auto-pay', icon: CreditCard, label: 'AutoPay' },
     { href: '/docs', icon: Dock, label: 'Docs' },
 ];
@@ -53,14 +52,7 @@ const NavBar: React.FC = () => {
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
 
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild>
-                                     {/* Update this link if you have a dedicated subscriptions page */}
-                                    <Link to="/subscriptions" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
-                                        Subscriptions
-                                    </Link>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
+                          
 
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild>

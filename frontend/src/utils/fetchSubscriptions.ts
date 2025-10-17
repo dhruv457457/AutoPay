@@ -26,7 +26,7 @@ export const fetchSubscriptionsForUser = async (address: string): Promise<Subscr
         const response = await fetch(INDEXER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
-            'x-hasura-admin-secret': 'testing',
+          
             },
             body: JSON.stringify(query),
         });
