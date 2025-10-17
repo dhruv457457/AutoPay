@@ -8,7 +8,6 @@ import {
     Braces,
     Menu,
     Home,
-    Repeat,
     CreditCard,
     Dock
 } from "lucide-react";
