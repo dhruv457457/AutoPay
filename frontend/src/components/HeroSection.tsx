@@ -39,7 +39,7 @@ export default function HeroSection() {
             Launch Dashboard
           </Link>
           <a 
-            href="#" 
+            href="/docs" 
             className="rounded-md bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors"
           >
             View Documentation

@@ -118,7 +118,7 @@ const InteractiveFeatures: React.FC = () => {
                 </div>
                     <div className='border border-gray-200 p-8'>
                         <div className="p-6 bg-gray-50 mb-8">
-                            <img src="https://i.ibb.co/CsV2JB09/gasless.png" alt="Gasless User Onboarding" className="w-full h-auto rounded-lg shadow-md" />
+                            <img src="https://i.ibb.co/G3nY3L4c/Gemini-Generated-Image-vpxifmvpxifmvpxi.png" alt="Gasless User Onboarding" className="w-full h-auto rounded-lg shadow-md" />
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 mb-4">Gasless User Onboarding</h3>
                         <p className="text-lg text-gray-600 mb-6">Remove friction for your users. With smart accounts, you can sponsor gas fees, allowing customers to set up their first subscription without needing native tokens.</p>
