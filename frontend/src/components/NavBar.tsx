@@ -36,7 +36,8 @@ const NavBar: React.FC = () => {
             <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white backdrop-blur-sm">
                 <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 md:px-6">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center space-x-2">
+                  <Link to="/" className="flex items-center space-x-2">
+                        <img src="https://i.ibb.co/rRVV4kSZ/AutoPay.png" alt="AutoPay Logo" className="h-6 w-auto" />
                         <span className="text-xl font-bold text-gray-900">AutoPay</span>
                     </Link>
 
